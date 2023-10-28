@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440986437960",
+    "project_id": "hackathon-online-library-mgt",
+    "storage_bucket": "hackathon-online-library-mgt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440986437960:android:806ead83620f8291bf4b7d",
+        "android_client_info": {
+          "package_name": "com.improve10x.hackathononlinelibrarymanagementsystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDjmot67x--9npBkcx-ejsXw7aVgO5OO4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
