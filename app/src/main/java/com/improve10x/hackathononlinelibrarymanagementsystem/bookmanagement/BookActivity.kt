@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import com.firebase.ui.auth.AuthUI
 import com.improve10x.hackathononlinelibrarymanagementsystem.BaseActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.R
 import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.search.SearchBookNetwork
@@ -93,7 +92,7 @@ class BookActivity : BaseActivity() {
             if (isChecked) {
                 handleAdvancedSearchVisibility()
             } else {
-                handleVisibitlity()
+                handleVisibility()
             }
         }
     }
@@ -105,7 +104,7 @@ class BookActivity : BaseActivity() {
         binding?.searchTitleEd?.visibility = View.VISIBLE
     }
 
-    private fun handleVisibitlity() {
+    private fun handleVisibility() {
         binding?.searchView?.visibility = View.VISIBLE
         binding?.searchGenreEd?.visibility = View.GONE
         binding?.searchAuthorEd?.visibility = View.GONE
@@ -122,7 +121,7 @@ class BookActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         supportActionBar?.title = "Books"
-        handleVisibitlity()
+        handleVisibility()
         if (isPaid) {
             getPurchasedBookList()
         } else {
