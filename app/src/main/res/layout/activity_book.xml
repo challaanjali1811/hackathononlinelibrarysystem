@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".bookmanagement.BookActivity">
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="@+id/as_cb"
+        app:layout_constraintEnd_toStartOf="@+id/as_cb"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/as_cb" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/books_rv"
@@ -23,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/search_author_ed" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_fab"
@@ -34,4 +37,54 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/baseline_add_24" />
+
+    <CheckBox
+        android:id="@+id/as_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Advanced \nSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/search_btn"
+        app:layout_constraintEnd_toStartOf="@+id/search_btn"
+        app:layout_constraintTop_toTopOf="@+id/search_btn" />
+
+    <EditText
+        android:id="@+id/search_title_ed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Search Title"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@+id/search_author_ed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_btn" />
+
+    <EditText
+        android:id="@+id/search_author_ed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Search Author"
+        android:inputType="text"
+        app:layout_constraintEnd_toStartOf="@+id/search_genre_ed"
+        app:layout_constraintStart_toStartOf="@+id/search_title_ed"
+        app:layout_constraintTop_toBottomOf="@+id/search_title_ed" />
+
+    <EditText
+        android:id="@+id/search_genre_ed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Search Genre"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/search_title_ed"
+        app:layout_constraintTop_toBottomOf="@+id/search_title_ed" />
+
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

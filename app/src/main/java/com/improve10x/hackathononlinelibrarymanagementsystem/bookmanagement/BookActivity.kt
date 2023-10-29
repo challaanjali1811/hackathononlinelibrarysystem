@@ -2,14 +2,15 @@ package com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.improve10x.hackathononlinelibrarymanagementsystem.BaseActivity
+import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.search.SearchBookNetwork
 import com.improve10x.hackathononlinelibrarymanagementsystem.databinding.ActivityBookBinding
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.PaymentActivity
-import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.AddUserActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr
-import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr.Companion.getCurrentUser
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserNetwork
 
 class BookActivity : BaseActivity() {
@@ -17,6 +18,7 @@ class BookActivity : BaseActivity() {
     private var booksAdapter: BooksAdapter? = null
     private var bookList = mutableListOf<Book>()
     private val network = BookNetwork.getInstance()
+    private val searchNetwork = SearchBookNetwork.getInstance()
     private val userNetwork = UserNetwork.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,74 @@ class BookActivity : BaseActivity() {
         setupBookListAdapter()
         setupBookListRv()
         setupFabClick();
+        handleAdvancedSearchCb()
         UserMgr.getInstance()
+        handleSearchBtn()
+    }
+
+    private fun handleSearchBtn() {
+        binding?.searchBtn?.setOnClickListener {
+            if(binding?.asCb?.isChecked == true){
+                advancedSearch()
+            } else {
+                search()
+            }
+        }
+    }
+
+    private fun search() {
+        val searchText = binding?.searchView?.query.toString()
+        searchNetwork.getSearch(searchText,  object : OnGetBooksDataListener {
+            override fun onBooksReceived(books: List<Book>) {
+                bookList.clear()
+                bookList.addAll(books)
+                booksAdapter?.setData(bookList)
+            }
+            override fun onFailedToReceiveBooks(ex: Exception) {
+
+            }
+        })
+    }
+
+    private fun advancedSearch() {
+        val title = binding?.searchTitleEd?.text.toString()
+        val author = binding?.searchAuthorEd?.text.toString()
+        val genre = binding?.searchGenreEd?.text.toString()
+        searchNetwork.getAdvancedSearch(title, author, genre,  object : OnGetBooksDataListener {
+            override fun onBooksReceived(books: List<Book>) {
+                bookList.clear()
+                bookList.addAll(books)
+                booksAdapter?.setData(bookList)
+            }
+
+            override fun onFailedToReceiveBooks(ex: Exception) {
+                Log.e(this.javaClass.simpleName, ex.message, ex)
+            }
+        })
+    }
+
+    private fun handleAdvancedSearchCb() {
+        binding?.asCb?.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                handleAdvancedSearchVisibility()
+            } else {
+                handleVisibitlity()
+            }
+        }
+    }
+
+    private fun handleAdvancedSearchVisibility() {
+        binding?.searchView?.visibility = View.GONE
+        binding?.searchGenreEd?.visibility = View.VISIBLE
+        binding?.searchAuthorEd?.visibility = View.VISIBLE
+        binding?.searchTitleEd?.visibility = View.VISIBLE
+    }
+
+    private fun handleVisibitlity() {
+        binding?.searchView?.visibility = View.VISIBLE
+        binding?.searchGenreEd?.visibility = View.GONE
+        binding?.searchAuthorEd?.visibility = View.GONE
+        binding?.searchTitleEd?.visibility = View.GONE
     }
 
     private fun setupFabClick() {
@@ -38,6 +107,7 @@ class BookActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         supportActionBar?.title = "Books"
+        handleVisibitlity()
         getBookList()
 
     }
@@ -49,9 +119,8 @@ class BookActivity : BaseActivity() {
                 bookList.addAll(books)
                 booksAdapter?.setData(bookList)
             }
-
             override fun onFailedToReceiveBooks(ex: Exception) {
-                TODO("Not yet implemented")
+                Log.e(this.javaClass.simpleName, ex.message, ex)
             }
         })
     }
