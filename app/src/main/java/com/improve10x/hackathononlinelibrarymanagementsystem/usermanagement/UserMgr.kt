@@ -14,7 +14,6 @@ class UserMgr private constructor() {
                 instance ?: UserMgr().also {
                     instance = it
                     network = UserNetwork.getInstance()
-                    network!!.getUser()
                 }
             }
         }

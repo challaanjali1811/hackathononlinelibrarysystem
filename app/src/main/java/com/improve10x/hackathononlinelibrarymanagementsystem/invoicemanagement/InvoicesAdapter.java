@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.OnItemActionListener;
 import com.improve10x.hackathononlinelibrarymanagementsystem.databinding.InvoiceItemBinding;
 
 import java.util.List;
@@ -38,11 +36,11 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoiceViewHolder> {
     public void onBindViewHolder(@NonNull InvoiceViewHolder holder, int position) {
         Invoice invoice = invoiceList.get(position);
         holder.binding.idTxt.setText("" + invoice.getId());
-        holder.binding.orderIdTxt.setText("" + invoice.getOrderId());
-        holder.binding.quantityTxt.setText("" + invoice.getQuantity());
-        holder.binding.downloadBtn.setOnClickListener(view -> {
-//            onItemActionListener.onItemClicked(invoice);
-            Log.d("Invoice", "Downloading invoice.");
+        holder.binding.orderIdTxt.setText("" + invoice.getBook().getTitle());
+        holder.binding.priceTv.setText("Rs. " + invoice.getPaymentInfo().getTotalPrice());
+        holder.binding.viewBtn.setOnClickListener(view -> {
+            onItemActionListener.onItemClicked(invoice);
+            Log.d("Invoice", "Viewing invoice.");
         });
     }
 

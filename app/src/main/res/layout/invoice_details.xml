@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="4dp"
+    android:background="#A3F3EA"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/price_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Price"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/gst_txt"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintTop_toTopOf="@+id/gst_txt" />
+
+    <TextView
+        android:id="@+id/invoice_id_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:padding="8dp"
+        android:shadowColor="#000000"
+        android:text="Invoice ID"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/title_txt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Title"
+        android:textColor="#1E2C57"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/invoice_id_txt" />
+
+    <TextView
+        android:id="@+id/gst_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="GST"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/price_txt"
+        app:layout_constraintTop_toBottomOf="@+id/title_txt" />
+
+    <TextView
+        android:id="@+id/published_date_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:text="Published Date"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/version_txt"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintTop_toTopOf="@+id/version_txt" />
+
+    <TextView
+        android:id="@+id/version_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Version"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/published_date_txt"
+        app:layout_constraintTop_toBottomOf="@+id/price_txt" />
+
+    <TextView
+        android:id="@+id/payment_mode_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Payment Mode"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/app_name_txt"
+        app:layout_constraintTop_toBottomOf="@+id/published_date_txt"
+        tools:layout_editor_absoluteX="4dp" />
+
+    <TextView
+        android:id="@+id/app_name_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="App Name : "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buyer_details_txt"
+        app:layout_constraintTop_toBottomOf="@+id/payment_mode_txt"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteX="20dp" />
+
+    <TextView
+        android:id="@+id/buyer_details_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Buyer Details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/app_name_txt"
+        app:layout_constraintTop_toBottomOf="@+id/app_name_txt" />
+
+    <TextView
+        android:id="@+id/buyer_name_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Name : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/buyer_details_txt"
+        app:layout_constraintTop_toBottomOf="@+id/buyer_details_txt" />
+
+    <TextView
+        android:id="@+id/buyer_mobile_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Mobile : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/buyer_name_txt"
+        app:layout_constraintTop_toBottomOf="@+id/buyer_name_txt" />
+
+    <TextView
+        android:id="@+id/buyer_email_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Email : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/buyer_mobile_txt"
+        app:layout_constraintTop_toBottomOf="@+id/buyer_mobile_txt" />
+
+    <TextView
+        android:id="@+id/buyer_address_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Address : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/buyer_email_txt"
+        app:layout_constraintTop_toBottomOf="@+id/buyer_email_txt" />
+
+    <TextView
+        android:id="@+id/seller_details_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Seller Details"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/buyer_address_txt"
+        app:layout_constraintTop_toBottomOf="@+id/buyer_address_txt" />
+
+    <TextView
+        android:id="@+id/seller_name_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Name : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_details_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_details_txt" />
+
+    <TextView
+        android:id="@+id/seller_mobile_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Mobile : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_name_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_name_txt" />
+
+    <TextView
+        android:id="@+id/seller_email_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Email : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_mobile_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_mobile_txt" />
+
+    <TextView
+        android:id="@+id/seller_pan_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="PAN : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_email_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_email_txt" />
+
+    <TextView
+        android:id="@+id/seller_gstno_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="GST NO : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_pan_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_pan_txt" />
+
+    <TextView
+        android:id="@+id/seller_address_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Address : "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/seller_gstno_txt"
+        app:layout_constraintTop_toBottomOf="@+id/seller_gstno_txt" />
+</androidx.constraintlayout.widget.ConstraintLayout>

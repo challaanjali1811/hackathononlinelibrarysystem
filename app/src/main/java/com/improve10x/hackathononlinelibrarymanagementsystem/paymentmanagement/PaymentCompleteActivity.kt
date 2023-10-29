@@ -20,6 +20,7 @@ class PaymentCompleteActivity : BaseActivity() {
         binding?.doneBtn?.setOnClickListener {
             finish()
             val intent = Intent(this, BookActivity::class.java)
+            intent.putExtra("paid", true)
             startActivity(intent)
         }
     }

@@ -3,12 +3,17 @@ package com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.firebase.ui.auth.AuthUI
 import com.improve10x.hackathononlinelibrarymanagementsystem.BaseActivity
+import com.improve10x.hackathononlinelibrarymanagementsystem.R
 import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.search.SearchBookNetwork
 import com.improve10x.hackathononlinelibrarymanagementsystem.databinding.ActivityBookBinding
+import com.improve10x.hackathononlinelibrarymanagementsystem.invoicemanagement.InvoiceActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.PaymentActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserNetwork
@@ -20,21 +25,30 @@ class BookActivity : BaseActivity() {
     private val network = BookNetwork.getInstance()
     private val searchNetwork = SearchBookNetwork.getInstance()
     private val userNetwork = UserNetwork.getInstance()
+    private var role: String? = null
+    private var isPaid: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBookBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        isPaid = intent.getBooleanExtra("paid", false)
+        setupRole()
         setupBookListAdapter()
         setupBookListRv()
         setupFabClick();
         handleAdvancedSearchCb()
-        UserMgr.getInstance()
         handleSearchBtn()
+    }
+
+    private fun setupRole() {
+        this.role = UserMgr.getCurrentUser()?.role
+        this.role?.let { Log.d("Current user ", it) }
     }
 
     private fun handleSearchBtn() {
         binding?.searchBtn?.setOnClickListener {
-            if(binding?.asCb?.isChecked == true){
+            if (binding?.asCb?.isChecked == true) {
                 advancedSearch()
             } else {
                 search()
@@ -44,12 +58,13 @@ class BookActivity : BaseActivity() {
 
     private fun search() {
         val searchText = binding?.searchView?.query.toString()
-        searchNetwork.getSearch(searchText,  object : OnGetBooksDataListener {
+        searchNetwork.getSearch(searchText, object : OnGetBooksDataListener {
             override fun onBooksReceived(books: List<Book>) {
                 bookList.clear()
                 bookList.addAll(books)
                 booksAdapter?.setData(bookList)
             }
+
             override fun onFailedToReceiveBooks(ex: Exception) {
 
             }
@@ -60,7 +75,7 @@ class BookActivity : BaseActivity() {
         val title = binding?.searchTitleEd?.text.toString()
         val author = binding?.searchAuthorEd?.text.toString()
         val genre = binding?.searchGenreEd?.text.toString()
-        searchNetwork.getAdvancedSearch(title, author, genre,  object : OnGetBooksDataListener {
+        searchNetwork.getAdvancedSearch(title, author, genre, object : OnGetBooksDataListener {
             override fun onBooksReceived(books: List<Book>) {
                 bookList.clear()
                 bookList.addAll(books)
@@ -75,7 +90,7 @@ class BookActivity : BaseActivity() {
 
     private fun handleAdvancedSearchCb() {
         binding?.asCb?.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked){
+            if (isChecked) {
                 handleAdvancedSearchVisibility()
             } else {
                 handleVisibitlity()
@@ -108,8 +123,17 @@ class BookActivity : BaseActivity() {
         super.onResume()
         supportActionBar?.title = "Books"
         handleVisibitlity()
-        getBookList()
+        if (isPaid) {
+            getPurchasedBookList()
+        } else {
+            getBookList()
+        }
+    }
 
+    private fun getPurchasedBookList() {
+        bookList.clear()
+        UserMgr.getCurrentUser()?.books?.let { bookList.addAll(it) }
+        booksAdapter?.setData(bookList)
     }
 
     private fun getBookList() {
@@ -119,6 +143,7 @@ class BookActivity : BaseActivity() {
                 bookList.addAll(books)
                 booksAdapter?.setData(bookList)
             }
+
             override fun onFailedToReceiveBooks(ex: Exception) {
                 Log.e(this.javaClass.simpleName, ex.message, ex)
             }
@@ -126,17 +151,18 @@ class BookActivity : BaseActivity() {
     }
 
     private fun setupBookListAdapter() {
-        booksAdapter = BooksAdapter()
+        booksAdapter = BooksAdapter(this.role)
         booksAdapter!!.setData(bookList)
     }
 
     private fun setupBookListRv() {
         binding?.booksRv?.setLayoutManager(GridLayoutManager(this, 2))
         binding?.booksRv?.setAdapter(booksAdapter)
-        booksAdapter?.setOnItemActionListener(object : OnItemActionListener{
+        booksAdapter?.setOnItemActionListener(object : OnItemActionListener {
             override fun onItemClicked(book: Book?) {
                 val intent = Intent(this@BookActivity, BookDetailsActivity::class.java)
                 intent.putExtra("book", book)
+                intent.putExtra("role", role)
                 startActivity(intent)
             }
 
@@ -154,17 +180,35 @@ class BookActivity : BaseActivity() {
             }
 
             override fun onBuyNowClicked(book: Book?) {
-                if(Integer.parseInt(book!!.unitsLeft) >= 1){
+                if (Integer.parseInt(book!!.unitsLeft) >= 1) {
                     userNetwork?.getUser(book!!.sellerId)
                     val intent = Intent(this@BookActivity, PaymentActivity::class.java)
                     intent.putExtra("book", book)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this@BookActivity,
+                    Toast.makeText(
+                        this@BookActivity,
                         "Stock not available. Please try after sometime",
-                        Toast.LENGTH_LONG)
+                        Toast.LENGTH_LONG
+                    )
                 }
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.sales) {
+            val intent = Intent(this@BookActivity, InvoiceActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+        return true
     }
 }

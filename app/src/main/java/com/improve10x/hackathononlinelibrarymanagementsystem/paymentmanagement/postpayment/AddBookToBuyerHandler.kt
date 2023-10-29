@@ -4,6 +4,7 @@ import android.util.Log
 import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.Book
 import com.improve10x.hackathononlinelibrarymanagementsystem.invoicemanagement.Invoice
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserInf
+import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserNetwork
 
 public class AddBookToBuyerHandler(private val orderHandler: OrderHandler) : OrderHandler(orderHandler) {
@@ -23,6 +24,7 @@ public class AddBookToBuyerHandler(private val orderHandler: OrderHandler) : Ord
         val bookList = user!!.books.toMutableList()
         bookList.add(book)
         val updatedUser = user!!.copy(books = bookList)
+        UserMgr.setCurrentUser(updatedUser)
         userNetwork?.updateUser(updatedUser)
     }
 }

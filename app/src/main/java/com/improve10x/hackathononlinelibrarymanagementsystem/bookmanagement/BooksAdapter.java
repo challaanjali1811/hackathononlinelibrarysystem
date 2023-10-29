@@ -2,6 +2,7 @@ package com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,8 +15,15 @@ import java.util.List;
 
 public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
+    public BooksAdapter(String role) {
+        this.role = role;
+    }
+
+
     private List<Book> bookList;
     private OnItemActionListener onItemActionListener;
+
+    private String role;
 
     void setData(List<Book> bookList) {
         this.bookList = bookList;
@@ -36,6 +44,19 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
+        switch(role){
+            case "Seller" :
+                holder.binding.buyBtn.setVisibility(View.GONE);
+                holder.binding.editBtn2.setVisibility(View.VISIBLE);
+                holder.binding.deleteBtn2.setVisibility(View.VISIBLE);
+                break;
+            case "Buyer" :
+            default:
+                holder.binding.editBtn2.setVisibility(View.GONE);
+                holder.binding.deleteBtn2.setVisibility(View.GONE);
+                holder.binding.buyBtn.setVisibility(View.VISIBLE);
+                break;
+        }
         Book book = bookList.get(position);
         holder.binding.titleTxt.setText("Title : " + book.getTitle());
         holder.binding.priceTxt.setText("Price : Rs. " + book.getPrice());

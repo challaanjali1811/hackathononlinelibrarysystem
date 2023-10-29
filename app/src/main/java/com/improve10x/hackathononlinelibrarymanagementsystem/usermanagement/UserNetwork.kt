@@ -36,21 +36,24 @@ class UserNetwork private constructor() {
             }
     }
 
-    fun getUser() {
+    fun getUser(userId : String?, role : String?, onGetUserListener: OnGetUserListener) {
         val db = FirebaseFirestore.getInstance()
         db.collection("users")
-            .document("yHej4LNx5KZOwSzQmU5D")
+            .document(userId!!)
             .get()
             .addOnSuccessListener {
                 val user = it.toObject(UserInf::class.java)
                 if (user != null) {
+                    onGetUserListener.onUserReceived(user)
                     Log.d("Current User", Gson().toJson(user))
+                    Log.d("Current User Role", role!!)
                 } else {
                     Log.d("User", "User is null");
                 }
                 currentUser = user
             }
             .addOnFailureListener {
+                onGetUserListener.onFailedToReceiveUser(it)
                 Log.e(this.javaClass.simpleName, it.message, it)
             }
     }
@@ -122,3 +125,10 @@ interface OnGetUsersDataListener {
 
     fun onFailedToReceiveUsers(ex: Exception)
 }
+
+interface OnGetUserListener {
+    fun onUserReceived(user: UserInf)
+
+    fun onFailedToReceiveUser(ex: Exception)
+}
+
