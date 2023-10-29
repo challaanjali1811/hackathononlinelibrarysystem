@@ -7,7 +7,6 @@ import android.widget.RadioButton
 import com.improve10x.hackathononlinelibrarymanagementsystem.BaseActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.Book
 import com.improve10x.hackathononlinelibrarymanagementsystem.databinding.ActivityPaymentBinding
-import com.improve10x.hackathononlinelibrarymanagementsystem.invoicemanagement.Invoice
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment.AddBookToBuyerHandler
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment.AddBookToSellerHandler
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment.AddInvoiceToBuyerHandler
@@ -16,19 +15,15 @@ import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.p
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment.OrderHandler
 import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment.UpdateBookHandler
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserInf
-import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr
 
 
 class PaymentActivity : BaseActivity() {
     private var binding: ActivityPaymentBinding? = null
     companion object{
-        var seller : UserInf? = null
-        var book : Book? = null
-        var invoice : Invoice? = null
-        var user : UserInf? = UserMgr.getCurrentUser()
-        var paymentStrategy : String? = null
+        var seller: UserInf? = null
     }
-
+    private var book: Book? = null
+    private var paymentStrategy : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPaymentBinding.inflate(layoutInflater)
@@ -40,7 +35,7 @@ class PaymentActivity : BaseActivity() {
 
     private fun handleUpi() {
         binding?.upiTv?.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked) {
+            if (isChecked) {
                 binding?.upiEd?.visibility = View.VISIBLE
             } else {
                 binding?.upiEd?.visibility = View.GONE
@@ -70,8 +65,7 @@ class PaymentActivity : BaseActivity() {
                 )
             )
         )
-        val order = "Making purchase"
-        processingChain.processOrder(order)
+        processingChain.processOrder(book, seller!!, null, paymentStrategy)
         goNext()
     }
 
@@ -86,12 +80,12 @@ class PaymentActivity : BaseActivity() {
             "CreditCard"
         else
             (findViewById<RadioButton>(binding!!.radioGroup.checkedRadioButtonId)).text.toString()
-        paymentStrategy = paymentStrategy
+        this.paymentStrategy = paymentStrategy
         val amount = book!!.price!!
         processPayment(paymentStrategy, java.lang.Double.parseDouble(amount))
     }
 
-    private fun processPayment(paymentStrategy : String, amount : Double) {
+    private fun processPayment(paymentStrategy: String, amount: Double) {
         val processor = PaymentProcessor()
         processor.setPaymentStrategy(paymentStrategy)
         processor.processPayment(amount)

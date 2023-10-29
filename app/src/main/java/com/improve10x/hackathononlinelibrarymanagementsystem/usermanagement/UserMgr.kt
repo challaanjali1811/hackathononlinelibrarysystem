@@ -22,6 +22,10 @@ class UserMgr private constructor() {
         fun getCurrentUser(): UserInf? {
             return network?.currentUser
         }
+
+        fun setCurrentUser(user : UserInf) {
+            network?.currentUser = user
+        }
     }
 
 }

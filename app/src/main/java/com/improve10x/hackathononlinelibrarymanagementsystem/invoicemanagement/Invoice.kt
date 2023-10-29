@@ -15,5 +15,18 @@ import java.io.Serializable;
     var orderId : String? = "",
     var paymentInfo : PaymentInfo? = null,
     var book : Book? = null,
-) : Serializable
+) : Serializable {
+   fun createNestedObject() : Invoice {
+      return this.copy(
+         buyerDetails = buyerDetails?.copy(
+            invoices = emptyList(),
+            books = emptyList()
+         ),
+         sellerDetails = sellerDetails?.copy(
+            invoices = emptyList(),
+            books = emptyList()
+         )
+      )
+   }
+}
 

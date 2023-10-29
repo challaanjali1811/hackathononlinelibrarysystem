@@ -1,21 +1,31 @@
 package com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.postpayment
 
 import android.util.Log
-import com.improve10x.hackathononlinelibrarymanagementsystem.paymentmanagement.PaymentActivity
+import com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement.Book
+import com.improve10x.hackathononlinelibrarymanagementsystem.invoicemanagement.Invoice
+import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserInf
+import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserMgr
 import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.UserNetwork
 
 public class AddInvoiceToBuyerHandler(private val orderHandler: OrderHandler) : OrderHandler(orderHandler) {
-    override fun processOrder(order: String?) {
-        Log.d("AddInvoiceToBuyerHandler", "Processing payment for order: $order");
-        addInvoiceToBuyer()
-        nextHandler?.processOrder(order)
+    override fun processOrder(
+        book: Book?,
+        seller: UserInf,
+        invoice: Invoice?,
+        paymentStrategy: String?
+    ) {
+        Log.d("AddInvoiceToBuyerHandler", "Processing payment for order");
+        addInvoiceToBuyer(invoice)
+        nextHandler?.processOrder(book, seller, invoice, paymentStrategy)
     }
 
-    private fun addInvoiceToBuyer() {
+    private fun addInvoiceToBuyer(invoice: Invoice?){
         userNetwork = UserNetwork.getInstance()
-        val invoiceList = PaymentActivity.user!!.invoices.toMutableList()
-        invoiceList.add(PaymentActivity.invoice!!)
-        val updatedUser = PaymentActivity.user!!.copy(invoices = invoiceList)
+        val buyer = UserMgr.getCurrentUser()!!
+        val invoiceList = buyer.invoices.toMutableList()
+        invoiceList.add(invoice!!.createNestedObject())
+        val updatedUser = buyer.copy(invoices = invoiceList)
+        UserMgr.setCurrentUser(updatedUser)
         userNetwork?.updateUser(updatedUser)
     }
 }

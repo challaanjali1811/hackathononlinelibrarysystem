@@ -17,4 +17,11 @@ data class UserInf (
     var isActive : Boolean = true,
     var invoices : List<Invoice> = emptyList(),
     var books : List<Book> = emptyList()
-) : Serializable
+) : Serializable {
+    fun createNestedObject() : UserInf {
+        return this.copy(
+            invoices = emptyList(),
+            books = emptyList()
+        )
+    }
+}
