@@ -109,6 +109,11 @@ class BookActivity : BaseActivity() {
         binding?.searchGenreEd?.visibility = View.GONE
         binding?.searchAuthorEd?.visibility = View.GONE
         binding?.searchTitleEd?.visibility = View.GONE
+        when (role) {
+            "Buyer" -> {
+                binding?.addFab?.visibility = View.GONE
+            }
+        }
     }
 
     private fun setupFabClick() {
