@@ -43,7 +43,7 @@ class BookDetailsActivity : BaseActivity() {
             val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
             val uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/hackathon-online-library-mgt.appspot.com/o/LLD_HACKATHON%20(1).pdf?alt=media&token=76ddefb5-93dc-4001-a762-fed8b15fa51d&_gl=1*4mxuet*_ga*MTY3Mjk3Mjg5Mi4xNjk4NDEwMzE0*_ga_CW55HF8NVT*MTY5ODYwMDc1My4yMC4xLjE2OTg2MDU2MTguNDAuMC4w")
             val request = DownloadManager.Request(uri)
-            Log.d("Downloaded File", uri.toString() + "")
+            Log.d("Online Library : Downloaded Book", uri.toString() + "")
             request.setDescription(book?.title)
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, book?.title + ".pdf")

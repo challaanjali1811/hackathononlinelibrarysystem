@@ -40,7 +40,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoiceViewHolder> {
         holder.binding.priceTv.setText("Rs. " + invoice.getPaymentInfo().getTotalPrice());
         holder.binding.viewBtn.setOnClickListener(view -> {
             onItemActionListener.onItemClicked(invoice);
-            Log.d("Invoice", "Viewing invoice.");
+            Log.d("Online Library : Invoice", "Viewing invoice.");
         });
     }
 

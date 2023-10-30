@@ -71,14 +71,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BookViewHolder> {
         });
         holder.binding.editBtn2.setOnClickListener(view -> {
             onItemActionListener.onEditClicked(book);
-            Log.d("Book", "Editing book.");
+            Log.d("Online Library : Book", "Editing book.");
         });
         holder.binding.deleteBtn2.setOnClickListener(view -> {
-            Log.d("Book", "Deleting book.");
+            Log.d("Online Library : Book", "Deleting book.");
             onItemActionListener.onDeleteClicked(book);
         });
         holder.binding.buyBtn.setOnClickListener(view -> {
-            Log.d("Book", "Buying book.");
+            Log.d("Online Library : Book", "Buying book.");
             onItemActionListener.onBuyNowClicked(book);
         });
         Picasso.get().load(book.getUrl()).into(holder.binding.bookIv);

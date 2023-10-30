@@ -24,13 +24,13 @@ class BookNetwork private constructor() {
                 val books = it.documents?.mapNotNull { it.toObject(Book::class.java) }
                 if (books != null) {
                     onGetBooksDataListener.onBooksReceived(books)
-                    Log.d("Books", Gson().toJson(books))
+                    Log.d("Online Library : Books", Gson().toJson(books))
                 } else {
-                    Log.d("Books", "Books is null");
+                    Log.d("Online Library : Books", "Books is null");
                 }
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 onGetBooksDataListener.onFailedToReceiveBooks(it)
             }
     }
@@ -44,10 +44,10 @@ class BookNetwork private constructor() {
             .document(book.id!!)
             .set(book)
             .addOnSuccessListener {
-                Log.d("Books", "Book added into list")
+                Log.d("Online Library : Books", "Book added into list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -57,9 +57,9 @@ class BookNetwork private constructor() {
             .document(book.id ?: "")
             .set(book)
             .addOnSuccessListener {
-                Log.d("Books", "Book details updated")
+                Log.d("Online Library : Books", "Book details updated")
             }.addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -69,10 +69,10 @@ class BookNetwork private constructor() {
             .document(book.id!!)
             .delete()
             .addOnSuccessListener {
-                Log.d("Books", "Book deleted from list")
+                Log.d("Online Library : Books", "Book deleted from list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 }

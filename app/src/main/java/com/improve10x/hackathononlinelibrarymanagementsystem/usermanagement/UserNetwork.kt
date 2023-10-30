@@ -25,13 +25,13 @@ class UserNetwork private constructor() {
                 val users = it.documents?.mapNotNull { it.toObject(UserInf::class.java) }
                 if (users != null) {
                     onGetUsersDataListener.onUsersReceived(users)
-                    Log.d("Users", Gson().toJson(users))
+                    Log.d("Online Library : Users", Gson().toJson(users))
                 } else {
-                    Log.d("Users", "Users is null");
+                    Log.d("Online Library : Users", "Users is null");
                 }
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 onGetUsersDataListener.onFailedToReceiveUsers(it)
             }
     }
@@ -45,16 +45,16 @@ class UserNetwork private constructor() {
                 val user = it.toObject(UserInf::class.java)
                 if (user != null) {
                     onGetUserListener.onUserReceived(user)
-                    Log.d("Current User", Gson().toJson(user))
-                    Log.d("Current User Role", role!!)
+                    Log.d("Online Library : Current User", Gson().toJson(user))
+                    Log.d("Online Library : Current User Role", role!!)
                 } else {
-                    Log.d("User", "User is null");
+                    Log.d("Online Library : User", "User is null");
                 }
                 currentUser = user
             }
             .addOnFailureListener {
                 onGetUserListener.onFailedToReceiveUser(it)
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -67,15 +67,15 @@ class UserNetwork private constructor() {
                 .addOnSuccessListener {
                     val user = it.toObject(UserInf::class.java)
                     if (user != null) {
-                        Log.d("Seller : ", Gson().toJson(user))
+                        Log.d("Online Library : Seller : ", Gson().toJson(user))
                         PaymentActivity.seller = user
                     } else {
-                        Log.d("Seller", "User is null");
+                        Log.d("Online Library : Seller", "User is null");
                     }
 
                 }
                 .addOnFailureListener {
-                    Log.e(this.javaClass.simpleName, it.message, it)
+                    Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 }
         }
     }
@@ -87,10 +87,10 @@ class UserNetwork private constructor() {
             .document(user.id!!)
             .set(user)
             .addOnSuccessListener {
-                Log.d("Users", "User added into list")
+                Log.d("Online Library : Users", "User added into list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -100,9 +100,9 @@ class UserNetwork private constructor() {
             .document(user.id ?: "")
             .set(user)
             .addOnSuccessListener {
-                Log.d("Users", "User details updated")
+                Log.d("Online Library : Users", "User details updated")
             }.addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -112,10 +112,10 @@ class UserNetwork private constructor() {
             .document(user.id!!)
             .delete()
             .addOnSuccessListener {
-                Log.d("Users", "User deleted from list")
+                Log.d("Online Library : Users", "User deleted from list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 }

@@ -23,13 +23,13 @@ class InvoiceNetwork private constructor() {
                 val invoices = it.documents?.mapNotNull { it.toObject(Invoice::class.java) }
                 if (invoices != null) {
                     onGetInvoicesDataListener.onInvoicesReceived(invoices)
-                    Log.d("Invoices", Gson().toJson(invoices))
+                    Log.d("Online Library : Invoices", Gson().toJson(invoices))
                 } else {
-                    Log.d("Invoices", "Invoices is null");
+                    Log.d("Online Library : Invoices", "Invoices is null");
                 }
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 onGetInvoicesDataListener.onFailedToReceiveInvoices(it)
             }
     }
@@ -42,10 +42,10 @@ class InvoiceNetwork private constructor() {
             .document(invoice.id!!)
             .set(invoice)
             .addOnSuccessListener {
-                Log.d("Invoices", "Invoice added into list")
+                Log.d("Online Library : Invoices", "Invoice added into list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -55,9 +55,9 @@ class InvoiceNetwork private constructor() {
             .document(invoice.id ?: "")
             .set(invoice)
             .addOnSuccessListener {
-                Log.d("Invoices", "Invoice details updated")
+                Log.d("Online Library : Invoices", "Invoice details updated")
             }.addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 
@@ -67,10 +67,10 @@ class InvoiceNetwork private constructor() {
             .document(invoice.id!!)
             .delete()
             .addOnSuccessListener {
-                Log.d("Invoices", "Invoice deleted from list")
+                Log.d("Online Library : Invoices", "Invoice deleted from list")
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
             }
     }
 }

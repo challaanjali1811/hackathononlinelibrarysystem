@@ -40,10 +40,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UserViewHolder> {
         holder.binding.nameTxt.setText(" " + user.getName());
         holder.binding.editBtn.setOnClickListener(view -> {
             onUserItemActionListener.onEditClicked(user);
-            Log.d("User", "Editing user.");
+            Log.d("Online Library : User", "Editing user.");
         });
         holder.binding.deleteBtn.setOnClickListener(view -> {
-            Log.d("User", "Deleting user.");
+            Log.d("Online Library : User", "Deleting user.");
             onUserItemActionListener.onDeleteClicked(user);
         });
 

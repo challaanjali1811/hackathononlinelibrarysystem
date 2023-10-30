@@ -13,7 +13,7 @@ public class AddInvoiceToSellerHandler(private val orderHandler: OrderHandler?) 
         invoice: Invoice?,
         paymentStrategy: String?
     ) {
-        Log.d("AddInvoiceToSellerHandler", "Processing payment for order");
+        Log.d("Online Library : AddInvoiceToSellerHandler", "Processing payment for order");
         addInvoiceToSeller(seller, invoice)
         nextHandler?.processOrder(book, seller, invoice, paymentStrategy)
     }

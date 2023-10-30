@@ -14,7 +14,7 @@ public class UpdateBookHandler(private val orderHandler: OrderHandler) :
         invoice: Invoice?,
         paymentStrategy: String?
     ) {
-        Log.d("UpdateBookHandler", "Processing payment for order");
+        Log.d("Online Library : UpdateBookHandler", "Processing payment for order");
         val updatedBook = updateBook(book!!)
         nextHandler?.processOrder(updatedBook, seller, invoice, "CreditCard")
     }

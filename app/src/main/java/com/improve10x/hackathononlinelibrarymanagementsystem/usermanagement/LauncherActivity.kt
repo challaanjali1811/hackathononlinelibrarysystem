@@ -44,7 +44,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
 
                 override fun onFailedToReceiveUser(ex: Exception) {
-                    Log.e("LauncherActivity", ex.message, ex)
+                    Log.e("Online Library : " + "LauncherActivity", ex.message, ex)
                 }
             })
         }
@@ -60,7 +60,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
 
                 override fun onFailedToReceiveUser(ex: Exception) {
-                    Log.e("LauncherActivity", ex.message, ex)
+                    Log.e("Online Library : " + "LauncherActivity", ex.message, ex)
                 }
             })
         }
@@ -76,7 +76,7 @@ class LauncherActivity : AppCompatActivity() {
                 }
 
                 override fun onFailedToReceiveUser(ex: Exception) {
-                    Log.e("LauncherActivity", ex.message, ex)
+                    Log.e("Online Library : " + "LauncherActivity", ex.message, ex)
                 }
             })
         }

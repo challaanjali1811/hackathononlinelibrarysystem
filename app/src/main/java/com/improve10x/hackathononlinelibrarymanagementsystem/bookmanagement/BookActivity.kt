@@ -42,7 +42,7 @@ class BookActivity : BaseActivity() {
 
     private fun setupRole() {
         this.role = UserMgr.getCurrentUser()?.role
-        this.role?.let { Log.d("Current user ", it) }
+        this.role?.let { Log.d("Online Library : Current user ", it) }
     }
 
     private fun handleSearchBtn() {
@@ -82,7 +82,7 @@ class BookActivity : BaseActivity() {
             }
 
             override fun onFailedToReceiveBooks(ex: Exception) {
-                Log.e(this.javaClass.simpleName, ex.message, ex)
+                Log.e("Online Library : " + this.javaClass.simpleName, ex.message, ex)
             }
         })
     }
@@ -144,7 +144,7 @@ class BookActivity : BaseActivity() {
             }
 
             override fun onFailedToReceiveBooks(ex: Exception) {
-                Log.e(this.javaClass.simpleName, ex.message, ex)
+                Log.e("Online Library : " + this.javaClass.simpleName, ex.message, ex)
             }
         })
     }

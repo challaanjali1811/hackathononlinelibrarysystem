@@ -9,7 +9,6 @@ import com.improve10x.hackathononlinelibrarymanagementsystem.usermanagement.User
 
 class SearchBookNetwork private constructor() {
     companion object {
-        var searchResult : List<Book>? = null
         @Volatile
         private var instance: SearchBookNetwork? = null
 
@@ -26,18 +25,18 @@ class SearchBookNetwork private constructor() {
             .addOnSuccessListener { book ->
                 val books = book.documents?.mapNotNull { it.toObject(Book::class.java) }
                 if (books != null) {
-                    Log.d("Search Books", Gson().toJson(books))
+                    Log.d("Online Library : Search Books", Gson().toJson(books))
                     var searchList = emptyList<Book>()
                     searchList = searchByTitle(searchList, title, books)
                     searchList = searchByAuthor(searchList, author)
                     searchList = searchByGenre(searchList, genre)
                     onGetBooksDataListener.onBooksReceived(searchList)
                 } else {
-                    Log.d("Search Books", "Books is null");
+                    Log.d("Online Library : Search Books", "Books is null");
                 }
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 onGetBooksDataListener.onFailedToReceiveBooks(it)
             }
     }
@@ -49,15 +48,15 @@ class SearchBookNetwork private constructor() {
             .addOnSuccessListener { book ->
                 val books = book.documents?.mapNotNull { it.toObject(Book::class.java) }
                 if (books != null) {
-                    Log.d("Search Books", Gson().toJson(books))
+                    Log.d("Online Library : Search Books", Gson().toJson(books))
                     val searchList = searchByQuery(searchQuery, books)
                     onGetBooksDataListener.onBooksReceived(searchList)
                 } else {
-                    Log.d("Search Books", "Books is null");
+                    Log.d("Online Library : Search Books", "Books is null");
                 }
             }
             .addOnFailureListener {
-                Log.e(this.javaClass.simpleName, it.message, it)
+                Log.e("Online Library : " + this.javaClass.simpleName, it.message, it)
                 onGetBooksDataListener.onFailedToReceiveBooks(it)
             }
     }
@@ -121,45 +120,4 @@ class SearchBookNetwork private constructor() {
         }
         return searchList1
     }
-//
-//    fun addBook(book: Book) {
-//        val db = FirebaseFirestore.getInstance()
-//        book.id = db.collection("books").document().id
-//        book.filePath = "/books/"+ book.id+".pdf"
-//        book.sellerId = UserMgr.getCurrentUser()!!.id
-//        db.collection("books")
-//            .document(book.id!!)
-//            .set(book)
-//            .addOnSuccessListener {
-//                Log.d("Books", "Book added into list")
-//            }
-//            .addOnFailureListener {
-//                Log.e(this.javaClass.simpleName, it.message, it)
-//            }
-//    }
-//
-//    fun updateBook(book: Book) {
-//        val db = FirebaseFirestore.getInstance()
-//        db.collection("books")
-//            .document(book.id ?: "")
-//            .set(book)
-//            .addOnSuccessListener {
-//                Log.d("Books", "Book details updated")
-//            }.addOnFailureListener {
-//                Log.e(this.javaClass.simpleName, it.message, it)
-//            }
-//    }
-//
-//    fun deleteBook(book: Book) {
-//        val db = FirebaseFirestore.getInstance()
-//        db.collection("books")
-//            .document(book.id!!)
-//            .delete()
-//            .addOnSuccessListener {
-//                Log.d("Books", "Book deleted from list")
-//            }
-//            .addOnFailureListener {
-//                Log.e(this.javaClass.simpleName, it.message, it)
-//            }
-//    }
 }

@@ -1,8 +1,12 @@
 package com.improve10x.hackathononlinelibrarymanagementsystem.bookmanagement
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import com.google.firebase.Firebase
+import com.google.firebase.storage.storage
 import com.improve10x.hackathononlinelibrarymanagementsystem.BaseActivity
 import com.improve10x.hackathononlinelibrarymanagementsystem.databinding.ActivityAddBookBinding
 
@@ -39,8 +43,36 @@ class AddBookActivity : BaseActivity() {
 
     private fun setupUploadClick() {
         binding?.uploadPdfBtn?.setOnClickListener {
-            Log.d("Books", "Upload clicked!")
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "application/pdf"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(Intent.createChooser(intent, "Select File"), 1000)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(resultCode != RESULT_CANCELED && requestCode == 1000) {
+            data?.data?.let {
+                uploadFile(it)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun uploadFile(fileUri: Uri) {
+        val bookRef = Firebase.storage.reference
+            .child("${
+                book?.title ?: ("/books/" + binding?.titleEd?.text.toString() + binding?.versionEd?.text.toString())
+            }.pdf")
+
+        var uploadTask = bookRef.putFile(fileUri)
+        uploadTask.addOnSuccessListener {
+            Toast.makeText(this, "File Uploaded Successfully", Toast.LENGTH_SHORT).show()
+            Log.d("Online Library : Books", "Uploading file of ${it.totalByteCount} bytes with filename ${it.uploadSessionUri.toString()}")
+        }.addOnFailureListener {
+            Toast.makeText(this, "Failed to Upload File", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun setupTickFabClick() {

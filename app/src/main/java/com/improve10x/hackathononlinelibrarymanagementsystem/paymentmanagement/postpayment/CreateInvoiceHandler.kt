@@ -15,7 +15,7 @@ public class CreateInvoiceHandler(private val orderHandler: OrderHandler) : Orde
         invoice: Invoice?,
         paymentStrategy: String?
     ) {
-        Log.d("CreateInvoiceHandler", "Processing payment for order");
+        Log.d("Online Library : CreateInvoiceHandler", "Processing payment for order");
         val invoice = createInvoice(book, seller,paymentStrategy!!)
         nextHandler?.processOrder(book, seller, invoice, paymentStrategy)
     }
